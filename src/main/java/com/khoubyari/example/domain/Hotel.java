@@ -2,6 +2,7 @@ package com.khoubyari.example.domain;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.*;
+import java.io.Serializable;
 
 /*
  * a simple domain entity doubling as a DTO
@@ -10,11 +11,11 @@ import javax.xml.bind.annotation.*;
 @Table(name = "hotel")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Hotel {
+public class Hotel implements Serializable {
 
     @Id
     @GeneratedValue()
-    private long id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -37,12 +38,12 @@ public class Hotel {
         this.rating = rating;
     }
 
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
 
     // for tests ONLY
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -87,5 +88,24 @@ public class Hotel {
                 ", city='" + city + '\'' +
                 ", rating=" + rating +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Hotel country = (Hotel) o;
+
+        return this.id.equals(country.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return this.id.hashCode();
     }
 }
