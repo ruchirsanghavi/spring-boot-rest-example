@@ -1,14 +1,26 @@
-<config xmlns='http://www.ehcache.org/v3'
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:jsr107="http://www.ehcache.org/v3/jsr107"
-        xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd
-							http://www.ehcache.org/v3/jsr107 http://www.ehcache.org/schema/ehcache-107-ext-3.0.xsd">
-    <cache alias="hotels">
-        <expiry>
-            <ttl unit="seconds">600</ttl>
-        </expiry>
-        <heap unit="entries">200</heap>
-        <jsr107:mbeans enable-statistics="true"/>
-    </cache>
+<?xml version="1.0" encoding="UTF-8"?>
 
-</config>
+<ehcache:config
+        xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+        xmlns:terracotta='http://www.ehcache.org/v3/clustered'
+        xmlns:ehcache='http://www.ehcache.org/v3'
+        xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.1.xsd
+    http://www.ehcache.org/v3/clustered http://www.ehcache.org/schema/ehcache-clustered-ext-3.1.xsd">
+
+    <ehcache:service>
+        <terracotta:cluster>
+            <terracotta:connection url="terracotta://localhost:9510/clustered"/>
+            <terracotta:server-side-config auto-create="true">
+                <terracotta:default-resource from="offheap-1"/>
+            </terracotta:server-side-config>
+        </terracotta:cluster>
+    </ehcache:service>
+
+    <ehcache:cache alias="hotels">
+        <ehcache:resources>
+            <ehcache:heap unit="entries">100</ehcache:heap>
+            <ehcache:offheap unit="MB">1</ehcache:offheap>
+            <terracotta:clustered-dedicated unit="MB">5</terracotta:clustered-dedicated>
+        </ehcache:resources>
+    </ehcache:cache>
+</ehcache:config>

@@ -119,6 +119,10 @@
             <groupId>org.ehcache</groupId>
             <artifactId>ehcache</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.ehcache</groupId>
+            <artifactId>ehcache-clustered</artifactId>
+        </dependency>
         <!-- spring boot cache starter-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

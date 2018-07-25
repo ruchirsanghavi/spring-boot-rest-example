@@ -8,6 +8,7 @@ This application is packaged as a war which has Tomcat 8 embedded. No Tomcat or 
 
 * Clone this repository 
 * Make sure you are using JDK 1.8 and Maven 3.x
+* Run Terracotta locally: ```docker run --name tc-server -p 9510:9510 -d terracotta/terracotta-server-oss:5.1.1```
 * You can build the project and run the tests by running ```mvn clean package```
 * Once successfully built, you can run the service by one of these two methods:
 ```
