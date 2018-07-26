@@ -1,0 +1,28 @@
+version: '3.5'
+services:
+  terracottaserver:
+    image: terracotta/terracotta-server-oss:5.1.1
+    ports:
+     - "9510:9510"
+     - "9530:9530"
+    networks:
+     - ehcache
+  api1:
+    image: buildit/spring-boot-rest-example:latest
+    ports:
+     - "8040:8090"
+    depends_on:
+    - terracottaserver
+    networks:
+       - ehcache
+  api2:
+    image: buildit/spring-boot-rest-example:latest
+    ports:
+     - "8050:8090"
+    depends_on:
+    - terracottaserver
+    networks:
+     - ehcache
+networks:
+  ehcache:
+    name: myehcache

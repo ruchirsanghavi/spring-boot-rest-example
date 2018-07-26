@@ -40,6 +40,7 @@ public class HotelService {
 
     @Cacheable
     public Hotel getHotel(long id) {
+        log.info("Calling hotel repository for ID:" + id);
         return hotelRepository.findOne(id);
     }
 

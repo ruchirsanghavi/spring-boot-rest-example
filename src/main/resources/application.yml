@@ -55,5 +55,6 @@ hotel.service:
 logging:
   file: boot_example.log
   org.hibernate: INFO
+  com.khoubyari.example.service.HotelService: INFO
 
  
