@@ -6,6 +6,8 @@
          http://www.springframework.org/schema/beans/spring-beans.xsd
          http://www.springframework.org/schema/cache
          http://www.springframework.org/schema/cache/spring-cache.xsd">
-
+    <bean id="cacheManager" class="org.apache.ignite.cache.spring.SpringCacheManager">
+        <property name="configurationPath" value="ignite.xml"/>
+    </bean>
     <cache:annotation-driven/>
 </beans>
