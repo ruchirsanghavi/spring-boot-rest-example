@@ -21,6 +21,7 @@
         <docker.image.prefix>buildit</docker.image.prefix>
         <java.version>1.8</java.version>
         <start-class>com.khoubyari.example.Application</start-class>
+        <ignite.version>2.5.0</ignite.version>
     </properties>
 
     <dependencies>
@@ -111,18 +112,25 @@
         </dependency>
 
 
-        <!-- ehcache and JSR dependencies-->
+        <!-- ignite and JSR dependencies-->
         <dependency>
             <groupId>javax.cache</groupId>
             <artifactId>cache-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.ehcache</groupId>
-            <artifactId>ehcache</artifactId>
+            <groupId>org.apache.ignite</groupId>
+            <artifactId>ignite-core</artifactId>
+            <version>${ignite.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.ehcache</groupId>
-            <artifactId>ehcache-clustered</artifactId>
+            <groupId>org.apache.ignite</groupId>
+            <artifactId>ignite-spring</artifactId>
+            <version>${ignite.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ignite</groupId>
+            <artifactId>ignite-kubernetes</artifactId>
+            <version>${ignite.version}</version>
         </dependency>
         <!-- spring boot cache starter-->
         <dependency>
