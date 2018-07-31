@@ -1,0 +1,97 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hazelcast
+  labels:
+    app: hazelcast
+spec:
+  replicas: 2
+  serviceName: hazelcast-service
+  selector:
+    matchLabels:
+      app: hazelcast
+  template:
+    metadata:
+      labels:
+        app: hazelcast
+    spec:
+      containers:
+      - name: hazelcast
+        image: hazelcast/hazelcast
+        ports:
+        - name: hazelcast
+          containerPort: 5701
+        livenessProbe:
+          httpGet:
+            path: /hazelcast/health/node-state
+            port: 5701
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /hazelcast/health/node-state
+            port: 5701
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 1
+        volumeMounts:
+        - name: hazelcast-storage
+          mountPath: /data/hazelcast
+        env:
+        - name: JAVA_OPTS
+          value: "-Dhazelcast.rest.enabled=true -Dhazelcast.config=/data/hazelcast/hazelcast.xml"
+      volumes:
+      - name: hazelcast-storage
+        configMap:
+          name: hazelcast-configuration
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: hazelcast-service
+  name: hazelcast-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: hazelcast
+  ports:
+  - protocol: TCP
+    port: 5701
+
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: management-center
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: management-center
+    spec:
+      containers:
+      - name: hazelcast
+        image: hazelcast/management-center
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hazelcast-management-service
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+  selector:
+    app: management-center
+  type: LoadBalancer
