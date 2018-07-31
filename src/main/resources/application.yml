@@ -54,5 +54,6 @@ logging:
   file: boot_example.log
   org.hibernate: INFO
   com.khoubyari.example.service.HotelService: INFO
+  org.ehcache: TRACE
+  org.springframework.cache: TRACE
 
- 
