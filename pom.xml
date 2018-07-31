@@ -111,18 +111,18 @@
         </dependency>
 
 
-        <!-- ehcache and JSR dependencies-->
+        <!-- hazelcast   and JSR dependencies-->
         <dependency>
             <groupId>javax.cache</groupId>
             <artifactId>cache-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.ehcache</groupId>
-            <artifactId>ehcache</artifactId>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.ehcache</groupId>
-            <artifactId>ehcache-clustered</artifactId>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast-spring</artifactId>
         </dependency>
         <!-- spring boot cache starter-->
         <dependency>
