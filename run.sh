@@ -1,2 +1,3 @@
-docker-compose -p spring down
-docker-compose -p spring up -d
+kubectl apply -f config.yml
+kubectl delete -f deployment.yml
+kubectl apply -f deployment.yml

@@ -11,6 +11,16 @@ data:
       <properties>
         <property name="hazelcast.discovery.enabled">true</property>
       </properties>
+      <map name="hotels">
+              <time-to-live-seconds>600</time-to-live-seconds>
+              <max-size>200</max-size>
+      </map>
+      <cache name="hotels">
+          <eviction size="200"/>
+
+          <statistics-enabled>true</statistics-enabled>
+          <management-enabled>true</management-enabled>
+      </cache>
       <network>
         <join>
           <multicast enabled="false"/>

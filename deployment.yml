@@ -95,3 +95,35 @@ spec:
   selector:
     app: management-center
   type: LoadBalancer
+
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: restapi
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: restapi
+    spec:
+      containers:
+      - name: spring-boot-rest-example
+        image: buildit/spring-boot-rest-example:latest
+        imagePullPolicy: IfNotPresent
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: restapi-service
+spec:
+  ports:
+  - port: 8090
+    targetPort: 8090
+    protocol: TCP
+  selector:
+    app: restapi
+  type: LoadBalancer
