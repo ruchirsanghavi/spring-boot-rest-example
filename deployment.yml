@@ -1,71 +1,42 @@
-apiVersion: apps/v1
-kind: StatefulSet
+apiVersion: apps/v1beta1
+kind: Deployment
 metadata:
-  name: hazelcast
-  labels:
-    app: hazelcast
+  name: hazelcast-restapi1
 spec:
-  replicas: 2
-  serviceName: hazelcast-service
-  selector:
-    matchLabels:
-      app: hazelcast
+  replicas: 1
   template:
     metadata:
       labels:
-        app: hazelcast
+        app: hazelcast-restapi1
     spec:
       containers:
-      - name: hazelcast
-        image: hazelcast/hazelcast
+      - name: hazelcast-restapi1
+        image: buildit/spring-boot-rest-example:latest
+        imagePullPolicy: IfNotPresent
         ports:
-        - name: hazelcast
+        - name: hazelcast1
           containerPort: 5701
-        livenessProbe:
-          httpGet:
-            path: /hazelcast/health/node-state
-            port: 5701
-          initialDelaySeconds: 30
-          periodSeconds: 10
-          timeoutSeconds: 5
-          successThreshold: 1
-          failureThreshold: 3
-        readinessProbe:
-          httpGet:
-            path: /hazelcast/health/node-state
-            port: 5701
-          initialDelaySeconds: 30
-          periodSeconds: 10
-          timeoutSeconds: 1
-          successThreshold: 1
-          failureThreshold: 1
-        volumeMounts:
-        - name: hazelcast-storage
-          mountPath: /data/hazelcast
-        env:
-        - name: JAVA_OPTS
-          value: "-Dhazelcast.rest.enabled=true -Dhazelcast.config=/data/hazelcast/hazelcast.xml"
-      volumes:
-      - name: hazelcast-storage
-        configMap:
-          name: hazelcast-configuration
-
+        - name: hazelcast2
+          containerPort: 8090
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
   labels:
-    name: hazelcast-service
-  name: hazelcast-service
+    name: hazelcast-service-restapi1
+  name: hazelcast-service-restapi1
 spec:
   type: LoadBalancer
   selector:
-    app: hazelcast
+    app: hazelcast-restapi1
   ports:
   - protocol: TCP
+    name: hazelcast3
     port: 5701
-
+  - name: hazelcast4
+    port: 8090
+    targetPort: hazelcast2
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
@@ -96,34 +67,3 @@ spec:
     app: management-center
   type: LoadBalancer
 
----
-apiVersion: apps/v1beta1
-kind: Deployment
-metadata:
-  name: restapi
-spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: restapi
-    spec:
-      containers:
-      - name: spring-boot-rest-example
-        image: buildit/spring-boot-rest-example:latest
-        imagePullPolicy: IfNotPresent
-
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: restapi-service
-spec:
-  ports:
-  - port: 8090
-    targetPort: 8090
-    protocol: TCP
-  selector:
-    app: restapi
-  type: LoadBalancer
