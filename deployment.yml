@@ -21,6 +21,28 @@ spec:
           containerPort: 8090
 ---
 
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: hazelcast-restapi-2
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: hazelcast-restapi-2
+        cluster: hazelcast
+    spec:
+      containers:
+      - name: hazelcast-restapi-2
+        image: buildit/spring-boot-rest-example:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: hazelcastport
+          containerPort: 5701
+        - name: apiport
+          containerPort: 8090
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -51,6 +73,23 @@ spec:
   - protocol: TCP
     name: apiport
     port: 8091
+    targetPort: apiport
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: restapi-2
+  name: restapi-2
+spec:
+  type: LoadBalancer
+  selector:
+    app: hazelcast-restapi-2
+  ports:
+  - protocol: TCP
+    name: apiport
+    port: 8092
     targetPort: apiport
 ---
 apiVersion: apps/v1beta1
