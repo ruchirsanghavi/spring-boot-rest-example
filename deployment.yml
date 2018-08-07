@@ -1,0 +1,36 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: couchbase-restapi-1
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: couchbase-restapi-1
+        cluster: couchbase
+    spec:
+      containers:
+      - name: couchbase-restapi-1
+        image: buildit/spring-boot-rest-example:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: apiport
+          containerPort: 8090
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: restapi-1
+  name: restapi-1
+spec:
+  type: LoadBalancer
+  selector:
+    app: couchbase-restapi-1
+  ports:
+  - protocol: TCP
+    name: apiport
+    port: 8091
+    targetPort: apiport

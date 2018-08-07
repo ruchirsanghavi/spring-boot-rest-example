@@ -58,3 +58,7 @@ logging:
   org.ehcache: TRACE
   org.springframework.cache: TRACE
 
+couchbase:
+  sever: cb-example
+  bucket: couchbase-sample
+  password: Y291Y2hiYXNlLXNhbXBsZQ==
