@@ -32,5 +32,5 @@ spec:
   ports:
   - protocol: TCP
     name: apiport
-    port: 8091
+    port: 8092
     targetPort: apiport

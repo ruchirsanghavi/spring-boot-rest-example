@@ -61,4 +61,4 @@ logging:
 couchbase:
   sever: cb-example
   bucket: couchbase-sample
-  password: Y291Y2hiYXNlLXNhbXBsZQ==
+  password: couchbase-sample

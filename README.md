@@ -4,19 +4,9 @@ This is a sample Java / Maven / Spring Boot (version 1.5.6) application that can
 
 ## How to Run 
 
-This application is packaged as a war which has Tomcat 8 embedded. No Tomcat or JBoss installation is necessary. You run it using the ```java -jar``` command.
-
-* Clone this repository 
-* Make sure you are using JDK 1.8 and Maven 3.x
-* Run Terracotta locally: ```docker run --name tc-server -p 9510:9510 -d terracotta/terracotta-server-oss:5.1.1```
-* You can build the project and run the tests by running ```mvn clean package```
-* Once successfully built, you can run the service by one of these two methods:
-```
-        java -jar -Dspring.profiles.active=test target/spring-boot-rest-example-0.5.0.war
-or
-        mvn spring-boot:run -Drun.arguments="spring.profiles.active=test"
-```
-* Check the stdout or boot_example.log file to make sure no exceptions are thrown
+* Build docker image locally ```clean package dockerfile:build -f pom.xml```
+* Run setup script ```./setup.sh```
+* Run run script ```./run.sh```
 
 Once the application runs you should see something like this
 
