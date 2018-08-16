@@ -20,7 +20,7 @@ spec:
         - name: OPTION_LIBS
           value: ignite-kubernetes
         - name: CONFIG_URI
-          value: https://raw.githubusercontent.com/apache/ignite/master/modules/kubernetes/config/ignite.xml
+          value: https://raw.githubusercontent.com/ruchirsanghavi/spring-boot-rest-example/ignite/src/main/resources/ignite.xml
         ports:
         # Ports to open.
         # Might be optional depending on your Kubernetes environment.
